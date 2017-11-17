@@ -1,0 +1,209 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  background-image: url('/img/space2.png');
+  background-size: cover;
+  background-attachment: scroll;
+}
+
+#wise_master {
+  display: block;
+  margin-top: 10rem;
+}
+
+#yodatext {
+  color: yellow;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.rollIn {
+  display: none;
+  position: absolute;
+  border: transparent;
+  margin: 0 auto;
+  width: 20rem;
+  height: 20rem;
+  background-image: url('/img/yoda7.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation-name: example;
+  animation-duration: 10s;
+  /*animation-delay: 4s;*/
+}
+
+.rollIn2 {
+  display: none;
+  border: transparent;
+  margin: 0 auto;
+  width: 20rem;
+  height: 20rem;
+  background-image: url('/img/yoda7.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation-name: example2;
+  animation-duration: 10s;
+  /*animation-delay: 4s;*/
+}
+
+.hidden {
+  display: none;
+}
+
+.fadeIn {
+  display: block;
+  border: transparent;
+  margin: 0 auto;
+  width: 20rem;
+  height: 20rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url('/img/yoda7.png');
+  animation-name: fadeIn;
+  animation-duration: 3s;
+  transition-delay: 4s;
+}
+
+.crawl {
+  font-family: 'Pathway Gothic One', sans-serif;
+  font-size: 500%;
+  font-weight: bold;
+  letter-spacing: 1rem;
+  line-height: 150%;
+  display: none;
+  position: absolute;
+  width: 6rem;
+  margin-left: 40%;
+  margin-top: 50%;
+  font-size: 3rem;
+  color: yellow;
+  animation:crawl 15s linear;
+  transform:perspective(300px);
+  /*animation-delay: 5s;*/
+}
+
+@keyframes crawl {
+
+  0% {
+      top: 0;
+      /*display: block;*/
+      transform-origin:50% 100%;
+      transform:rotateX(60deg);
+    }
+
+  20% {
+      top: -1000px;
+      font-size: 5rem;
+      transform-origin:50% 100%;
+    }
+
+  50% {
+      top: -2000px;
+      font-size: 7rem;
+      transform-origin:50% 100%;
+    }
+
+  70% {
+    top: -6000px;
+    font-size: 9rem;
+    transform-origin:50% 100%;
+  }
+  100% {
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes example {
+    0%  {background-image: url('/img/yoda8.png');}
+   20%  {background-image: url('/img/yoda2.png');}
+   40%  {background-image: url('/img/yoda5.png');}
+   60%  {background-image: url('/img/yoda1.png');}
+   80%  {background-image: url('/img/yoda2.png');}
+   100%  {background-image: url('/img/yoda3.png');}
+
+   from {
+     opacity: 2;
+     margin-left: 0;
+     width: 10rem;
+     transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg);
+   }
+
+   to {
+     margin-left: 45%;
+     width: 25rem;
+     transform: none;
+     opacity: 0;
+   }
+}
+
+@keyframes example2 {
+    0%  {background-image: url('/img/yoda8.png');}
+   20%  {background-image: url('/img/yoda2.png');}
+   40%  {background-image: url('/img/yoda5.png');}
+   60%  {background-image: url('/img/yoda1.png');}
+   80%  {background-image: url('/img/yoda2.png');}
+   100%  {background-image: url('/img/yoda3.png');}
+
+   from {
+     opacity: 2;
+     margin-right: 0;
+     width: 10rem;
+     transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg);
+   }
+
+   to {
+     margin-right: 45%;
+     width: 25rem;
+     transform: none;
+     opacity: 0;
+   }
+}
+
+.form_input, button {
+  display: block;
+  font-size: 1.75rem;
+  margin: 3rem auto;
+  width: 35rem;
+  height: 5rem;
+  animation-name: fadeIn;
+  animation-duration: 3s;
+  transition-delay: 2s;
+}
+
+.form_input {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+input {
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #77601a;
+}
+
+button {
+  color: #573c0f;
+  background-color: #cfc442;
+  border-radius: 10px;
+  border-style: none;
+}
+
+/*button:hover {
+  color: #573c0f;
+  background-color: #cfc442;
+  width: 70rem;
+  height: 10rem;
+}*/

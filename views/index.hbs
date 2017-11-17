@@ -1,0 +1,147 @@
+
+<link rel="stylesheet" type="text/css" href='/css/yoda.css'>
+
+
+
+<h1 id="yodatext"></h1>
+
+<div class ='rollIn layover'></div>
+<div class ='rollIn2'></div>
+<div class ='rollIn layover'></div>
+<div class ='rollIn2'></div>
+<div id='wise_master' class =''></div>
+
+<!-- <blockquote class="hidden">
+  <p>Teach you to speak like me, I will. Learn, you must!</p>
+</blockquote> -->
+
+<div class='crawl'><p>Teach you to speak like me, I will. Learn, you must!</p></div>
+
+
+<form action="/yoda_speak/" method="GET" onsubmit="return submit_form()">
+  <input class='hidden' id='yoda_speak' name='yoda_speak' placeholder='Translate into Yoda-Speak'>
+  <button id='translate' class='hidden' type='submit'>Like Me, Speak!</button>
+</form>
+
+
+<script>
+$('.crawl').show();
+setTimeout(function(){
+  $.playSound('/sounds/coolsaber.wav');
+  $('.crawl').hide();
+  // $('.rollIn, .rollIn2').show();
+}, 5500);
+setTimeout(function(){
+  // $.playSound('/sounds/coolsaber.wav');
+  $('.rollIn, .rollIn2').show();
+}, 7000);
+setTimeout(function(){
+  $.playSound('/sounds/Hum 4.wav');
+}, 8000);
+setTimeout(function(){
+  $.playSound('/sounds/Hum 4.wav');
+}, 10000);
+setTimeout(function(){
+  $('.rollIn, .rollIn2').hide();
+  $.playSound('/sounds/fx5.wav');
+}, 13000);
+setTimeout(function(){
+  $('#wise_master').attr('class', 'fadeIn');
+}, 13000);
+setTimeout(function(){
+  $('input').attr('class', 'form_input');
+  $('button').attr('class', 'form_input');
+  $.playSound('/sounds/help.mp3');
+}, 13650);
+
+
+
+
+
+AWS.config.update({
+  accessKeyId: accessKeyId,
+  secretAccessKey: secretAccessKey,
+});
+
+// Here is where I send the text input to Polly.
+const Polly = new AWS.Polly({
+    signatureVersion: 'v4',
+    region: 'us-east-1'
+});
+
+var s3 = new AWS.S3({
+  apiVersion: '2006-03-01',
+  params: {Bucket: BucketName},
+});
+console.log('Authentication worked');
+
+var hash = ''
+var new_wisdom = ''
+var yoda_says = ''
+// var yoda_says = `https://s3.amazonaws.com/my-video-project/mp3/${hash}.mp3`;
+// I need to write some code to check if the filename exists in my bucket, and if not create it.
+function submit_form() {
+  let text = $('#yoda_speak').val()
+  var wisdom = $.get(`/yoda_speak/?yoda_speak=${text}`)
+    .done(function (data) {
+      $("#yodatext").text(data);
+      // I am going to take the text input, hash it and store it.
+      console.log('wisdom is', data);
+      // var hash = md5(data);
+      var yoda_says = `https://s3.amazonaws.com/my-video-project/mp3/${wisdom}.mp3`;
+
+      console.log('new wisdom is', hash);
+      // console.log('Yoda says:', yoda_says);
+
+      let params = {
+          'Text': `<speak><amazon:effect name="whispered" vocal-tract-length="-500%"><prosody rate="x-slow" pitch="x-low" volume= "x-loud">${new_wisdom}<break time=".25s"/></prosody></amazon:effect></speak>`,
+          'TextType': "ssml",
+          'OutputFormat': 'mp3',
+          'VoiceId': 'Matthew'
+      }
+      console.log(params);
+      Polly.synthesizeSpeech(params, (err, data) => {
+        console.log('it got this far', hash);
+          if (err) {
+              console.log(err)
+          } else if (data) {
+            // if (data.AudioStream instanceof Buffer) {
+              add_mp3(data, hash);
+              $('#translate').click(function(){
+                console.log('Here\s a Dagobah knowledge bomb for ya', yoda_says);
+                $.playSound(yoda_says);
+                // $.playSound(yoda_says + '?ts=' + Date.now());
+
+                $.playSound('/sounds/laugh.wav');
+              });
+              console.log('just added it');
+            }
+      });
+    })
+
+  return false;
+}
+
+function add_mp3(data, hash) {
+  mp3 = data.AudioStream;
+  console.log(mp3)
+  console.log('it got this too', hash);
+  s3.upload({
+      Key:  `mp3/${hash}.mp3`,
+      Body: data.AudioStream,
+      ACL: 'public-read'
+    }, function(err, data) {
+      if (err) {
+        console.log('Dang it all!', err)
+      }
+      console.log('Successfully uploaded, your mp3 was.');
+    });
+}
+
+// $('#translate').click(function(){
+//   console.log('Here\s a Dagobah knowledge bomb for ya', yoda_says);
+//   $.playSound(yoda_says + '?ts=' + Date.now());
+//   // $.playSound('/sounds/laugh.wav');
+// });
+
+</script>

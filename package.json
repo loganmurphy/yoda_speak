@@ -1,0 +1,26 @@
+{
+  "name": "google_home_proj",
+  "version": "1.0.0",
+  "description": "A fun interactive app with the Google Home",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apiai": "^4.0.3",
+    "aws-sdk": "^2.151.0",
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "hbs": "^4.0.1",
+    "jovo": "0.0.1",
+    "jovo-framework": "^0.6.11",
+    "nodemon": "^1.12.1",
+    "shakespeare-insult": "^1.0.0",
+    "soap": "^0.23.0",
+    "yoda-speak": "^0.1.1"
+  }
+}
