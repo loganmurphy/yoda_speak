@@ -60,8 +60,9 @@ setTimeout(function(){
 var BucketName = 'my-video-project';
 var bucketRegion = 'us-east-1';
 var IdentityPoolId = 'us-east-1:473bce5e-4716-4c02-9906-0fa7bff5de33';
-var accessKeyId = '{{process.env.KEY}}'
-var secretAccessKey = '{{process.env.SECRET}}'
+var accessKeyId = '{{accessKeyId}}'
+var secretAccessKey = '{{secretAccessKey}}'
+
 
 AWS.config.update({
   accessKeyId: accessKeyId,
@@ -118,25 +119,41 @@ function submit_form() {
             check_yoda(hash).then(function (is_there) {
               if (is_there) {
                 // play
+                $('#translate').click(function(){
+                  console.log('I am here!')
+
+                  // $.playSound(yoda_says + '?ts=' + Date.now());
+                  $.playSound($('#mp3_link').text());
+                  // $.playSound('/sounds/laugh.wav');
+                });
               } else {
                 add_mp3(data, hash, function () {
                   // do check again
+                  console.log('I am not!')
+                  check_yoda(hash).then(function (is_there) {
+                    if (is_there) {
+                      $('#translate').click(function(){
+                        // $.playSound(yoda_says + '?ts=' + Date.now());
+                        $.playSound($('#mp3_link').text());
+                      });
+                    }
+                  });
                 });
               }
             })
             // // if not add it
             // console.log('second time', exists)
           // } else {
-              add_mp3(data, hash);
+              //  add_mp3(data, hash);
             // }
-            console.log('just added it');
+            // console.log('just added it');
           }
       });
     })
   return false;
 }
 
-function add_mp3(data, hash) {
+function add_mp3(data, hash, callback) {
   mp3 = data.AudioStream;
   console.log(mp3)
   console.log('it got this too', hash);
@@ -148,7 +165,8 @@ function add_mp3(data, hash) {
       if (err) {
         console.log('Dang it all!', err)
       }
-      console.log('Successfully uploaded, your mp3 was.');
+      console.log('Successfully uploaded, your mp3 was.')
+      callback();
     });
 }
 
@@ -166,7 +184,7 @@ function check_yoda(hash) {
       resolve(true)
     }
   })
-})
+  })
 }
 // function check_yoda(hash) {
 //   // console.log(hash)
@@ -187,15 +205,8 @@ function check_yoda(hash) {
 //     }
 //   });
 // }
-$('#translate').click(function(){
-  // console.log('Here\s a Dagobah knowledge bomb for ya', yoda_says);
-  // $.playSound(yoda_says + '?ts=' + Date.now());
-  console.log('look here', hash)
-  console.log('also here', $('#mp3_link').text())
-  // let yoda_says = `https://s3.amazonaws.com/my-video-project/mp3/${hash}.mp3`
-  $.playSound($('#mp3_link').text());
 
-  // $.playSound('/sounds/laugh.wav');
+$('#wise_master').click(function(){
+  $.playSound('/sounds/laugh.wav');
 });
-
 </script>

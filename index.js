@@ -9,17 +9,8 @@ var wisdom = ''
 
 // var insult = require('shakespeare-insult').random();
 // var api_url = 'https://api.chucknorris.io/jokes/random';
-
-
-
-var BucketName = 'my-video-project';
-var bucketRegion = 'us-east-1';
-var IdentityPoolId = 'us-east-1:473bce5e-4716-4c02-9906-0fa7bff5de33';
-var accessKeyId = 'AKIAJ2M57AOPWD4VQNJQ';
-var secretAccessKey = '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';
-
-
-
+var accessKeyId = process.env.KEY
+var secretAccessKey = process.env.SECRET
 
 // var yoda_me = wisdom;
 var wisdom = ''
@@ -36,51 +27,7 @@ let params = {
 
 // var yoda_says = 'https://s3.amazonaws.com/my-video-project/mp3/' + file_name + '.mp3';
 
-
-
-AWS.config.update({
-  accessKeyId: accessKeyId,
-  secretAccessKey: secretAccessKey,
-});
-
 // Here is where I send the text input to Polly.
-const Polly = new AWS.Polly({
-    signatureVersion: 'v4',
-    region: 'us-east-1'
-});
-
-var s3 = new AWS.S3({
-  apiVersion: '2006-03-01',
-  params: {Bucket: BucketName},
-});
-console.log('Authentication worked');
-
-
-function add_mp3(data) {
-  mp3 = data.AudioStream;
-  console.log(mp3)
-  s3.upload({
-      Key:  `mp3/${file_name}.mp3`,
-      Body: data.AudioStream,
-      ACL: 'public-read'
-    }, function(err, data) {
-      if (err) {
-        console.log('Dang it all!', err)
-      }
-      console.log('Successfully uploaded your mp3.');
-    });
-}
-
-Polly.synthesizeSpeech(params, (err, data) => {
-    if (err) {
-        console.log(err)
-    } else if (data) {
-        if (data.AudioStream instanceof Buffer) {
-          add_mp3(data);
-          console.log(data);
-        }
-    }
-})
 
 // var params = {
 //   LanguageCode: "en-IN",
@@ -110,7 +57,7 @@ webhook.use('/node_modules', express.static('node_modules'));
 
 webhook.get('/', function(req, res){
 
-  var context = {yoda: wisdom, yoda_talks: file_name};
+  var context = {yoda: wisdom, yoda_talks: file_name, accessKeyId: accessKeyId, secretAccessKey: secretAccessKey};
   res.render('index.hbs', context);
 })
 
