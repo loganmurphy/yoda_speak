@@ -4,6 +4,7 @@
 
 
 <h1 id="yodatext"></h1>
+<h2 id="mp3_link"></h2>
 
 <div class ='rollIn layover'></div>
 <div class ='rollIn2'></div>
@@ -56,7 +57,11 @@ setTimeout(function(){
 
 
 
-
+var BucketName = 'my-video-project';
+var bucketRegion = 'us-east-1';
+var IdentityPoolId = 'us-east-1:473bce5e-4716-4c02-9906-0fa7bff5de33';
+var accessKeyId = '{{process.env.KEY}}'
+var secretAccessKey = '{{process.env.SECRET}}'
 
 AWS.config.update({
   accessKeyId: accessKeyId,
@@ -76,10 +81,11 @@ var s3 = new AWS.S3({
 console.log('Authentication worked');
 
 var hash = ''
-var new_wisdom = ''
 var yoda_says = ''
 // var yoda_says = `https://s3.amazonaws.com/my-video-project/mp3/${hash}.mp3`;
 // I need to write some code to check if the filename exists in my bucket, and if not create it.
+
+
 function submit_form() {
   let text = $('#yoda_speak').val()
   var wisdom = $.get(`/yoda_speak/?yoda_speak=${text}`)
@@ -87,14 +93,14 @@ function submit_form() {
       $("#yodatext").text(data);
       // I am going to take the text input, hash it and store it.
       console.log('wisdom is', data);
-      // var hash = md5(data);
-      var yoda_says = `https://s3.amazonaws.com/my-video-project/mp3/${wisdom}.mp3`;
-
-      console.log('new wisdom is', hash);
+      var hash = md5(data);
+      var yoda_says = `https://s3.amazonaws.com/my-video-project/mp3/${hash}.mp3`;
+      var link = $('#mp3_link').text(yoda_says);
+      console.log('Here is your link', link);
       // console.log('Yoda says:', yoda_says);
 
       let params = {
-          'Text': `<speak><amazon:effect name="whispered" vocal-tract-length="-500%"><prosody rate="x-slow" pitch="x-low" volume= "x-loud">${new_wisdom}<break time=".25s"/></prosody></amazon:effect></speak>`,
+          'Text': `<speak><amazon:effect name="whispered" vocal-tract-length="-500%"><prosody rate="x-slow" pitch="x-low" volume= "x-loud">${data}<break time=".25s"/></prosody></amazon:effect></speak>`,
           'TextType': "ssml",
           'OutputFormat': 'mp3',
           'VoiceId': 'Matthew'
@@ -105,20 +111,28 @@ function submit_form() {
           if (err) {
               console.log(err)
           } else if (data) {
-            // if (data.AudioStream instanceof Buffer) {
+            var exists = true;
+            console.log('first time', exists)
+            // check if the file exists
+            // if (exists == true) {
+            check_yoda(hash).then(function (is_there) {
+              if (is_there) {
+                // play
+              } else {
+                add_mp3(data, hash, function () {
+                  // do check again
+                });
+              }
+            })
+            // // if not add it
+            // console.log('second time', exists)
+          // } else {
               add_mp3(data, hash);
-              $('#translate').click(function(){
-                console.log('Here\s a Dagobah knowledge bomb for ya', yoda_says);
-                $.playSound(yoda_says);
-                // $.playSound(yoda_says + '?ts=' + Date.now());
-
-                $.playSound('/sounds/laugh.wav');
-              });
-              console.log('just added it');
-            }
+            // }
+            console.log('just added it');
+          }
       });
     })
-
   return false;
 }
 
@@ -138,10 +152,50 @@ function add_mp3(data, hash) {
     });
 }
 
-// $('#translate').click(function(){
-//   console.log('Here\s a Dagobah knowledge bomb for ya', yoda_says);
-//   $.playSound(yoda_says + '?ts=' + Date.now());
-//   // $.playSound('/sounds/laugh.wav');
-// });
+function check_yoda(hash) {
+  return new Promise(function(resolve, reject) {
+  s3.listObjectsV2({Delimiter: ",", Prefix: `mp3/${hash}.mp3`}, function(err, data) {
+    console.log('check_yoda promise', data.Contents)
+    if (err) {reject(err)}
+    if (data.Contents.length == 0) {
+      console.log('len is 0')
+      resolve(false)
+    }
+    else {
+      console.log('len is not 0')
+      resolve(true)
+    }
+  })
+})
+}
+// function check_yoda(hash) {
+//   // console.log(hash)
+//   s3.listObjectsV2({Delimiter: `mp3/${hash}.mp3`, Prefix: `mp3/${hash}.mp3`}, function(err, data) {
+//     // console.log(data)
+//     if (err) {
+//       console.log('That didn\'t work', err);
+//     } else {
+//       var mp3 = [];
+//       mp3.push(data);
+//       console.log('this is what exists', data.Contents);
+//     }
+//     if (mp3.length < 1) {
+//       console.log('that doesn\t exist', data.Contents);
+//
+//       // exists = false;
+//       // return exists;
+//     }
+//   });
+// }
+$('#translate').click(function(){
+  // console.log('Here\s a Dagobah knowledge bomb for ya', yoda_says);
+  // $.playSound(yoda_says + '?ts=' + Date.now());
+  console.log('look here', hash)
+  console.log('also here', $('#mp3_link').text())
+  // let yoda_says = `https://s3.amazonaws.com/my-video-project/mp3/${hash}.mp3`
+  $.playSound($('#mp3_link').text());
+
+  // $.playSound('/sounds/laugh.wav');
+});
 
 </script>

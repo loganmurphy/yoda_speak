@@ -20,6 +20,10 @@ html {
   margin: 0 auto;
 }
 
+#mp3_link {
+  display: none;
+}
+
 .rollIn {
   display: none;
   position: absolute;

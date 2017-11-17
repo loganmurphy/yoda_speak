@@ -11,6 +11,16 @@ var wisdom = ''
 // var api_url = 'https://api.chucknorris.io/jokes/random';
 
 
+
+var BucketName = 'my-video-project';
+var bucketRegion = 'us-east-1';
+var IdentityPoolId = 'us-east-1:473bce5e-4716-4c02-9906-0fa7bff5de33';
+var accessKeyId = 'AKIAJ2M57AOPWD4VQNJQ';
+var secretAccessKey = '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';
+
+
+
+
 // var yoda_me = wisdom;
 var wisdom = ''
 var yoda_me = wisdom;
