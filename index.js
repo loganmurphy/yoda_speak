@@ -73,7 +73,7 @@ app.get('/yoda_speak', function(req, res){
 
 // Listen for post requests
 var PORT = process.env.PORT || 3000;
-app.listen(3000, function() {
+app.listen(PORT, function() {
     console.log('Local development server listening on port 3000.');
 });
 
