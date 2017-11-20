@@ -1,5 +1,6 @@
 
-<link rel="stylesheet" type="text/css" href='/css/yoda.css'>
+<link rel="stylesheet" type="text/css" href='/css/main.css'>
+<!-- <link rel="stylesheet" type="text/css" href='/css/yoda.css'> -->
 
 
 
@@ -11,10 +12,6 @@
 <div class ='rollIn layover'></div>
 <div class ='rollIn2'></div>
 <div id='wise_master' class =''></div>
-
-<!-- <blockquote class="hidden">
-  <p>Teach you to speak like me, I will. Learn, you must!</p>
-</blockquote> -->
 
 <div class='crawl'><p>Teach you to speak like me, I will. Learn, you must!</p></div>
 
@@ -107,13 +104,14 @@ function submit_form() {
           'VoiceId': 'Matthew'
       }
       console.log(params);
+      // Here is where I send the text input to Polly.
       Polly.synthesizeSpeech(params, (err, data) => {
         console.log('it got this far', hash);
           if (err) {
               console.log(err)
           } else if (data) {
-            var exists = true;
-            console.log('first time', exists)
+            // var exists = true;
+            // console.log('first time', exists)
             // check if the file exists
             // if (exists == true) {
             check_yoda(hash).then(function (is_there) {
@@ -121,7 +119,6 @@ function submit_form() {
                 // play
                 $('#translate').click(function(){
                   console.log('I am here!')
-
                   // $.playSound(yoda_says + '?ts=' + Date.now());
                   $.playSound($('#mp3_link').text());
                   // $.playSound('/sounds/laugh.wav');
@@ -141,12 +138,6 @@ function submit_form() {
                 });
               }
             })
-            // // if not add it
-            // console.log('second time', exists)
-          // } else {
-              //  add_mp3(data, hash);
-            // }
-            // console.log('just added it');
           }
       });
     })
@@ -186,25 +177,6 @@ function check_yoda(hash) {
   })
   })
 }
-// function check_yoda(hash) {
-//   // console.log(hash)
-//   s3.listObjectsV2({Delimiter: `mp3/${hash}.mp3`, Prefix: `mp3/${hash}.mp3`}, function(err, data) {
-//     // console.log(data)
-//     if (err) {
-//       console.log('That didn\'t work', err);
-//     } else {
-//       var mp3 = [];
-//       mp3.push(data);
-//       console.log('this is what exists', data.Contents);
-//     }
-//     if (mp3.length < 1) {
-//       console.log('that doesn\t exist', data.Contents);
-//
-//       // exists = false;
-//       // return exists;
-//     }
-//   });
-// }
 
 $('#wise_master').click(function(){
   $.playSound('/sounds/laugh.wav');

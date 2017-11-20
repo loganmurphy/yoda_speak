@@ -18,9 +18,11 @@
     "hbs": "^4.0.1",
     "jovo": "0.0.1",
     "jovo-framework": "^0.6.11",
+    "less": "^2.7.3",
     "nodemon": "^1.12.1",
     "shakespeare-insult": "^1.0.0",
     "soap": "^0.23.0",
+    "watch-run": "^1.2.5",
     "yoda-speak": "^0.1.1"
   }
 }

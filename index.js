@@ -5,37 +5,23 @@ const AWS = require('aws-sdk')
 
 var axios = require('axios');
 var soap = require('soap');
-var wisdom = ''
 
 // var insult = require('shakespeare-insult').random();
 // var api_url = 'https://api.chucknorris.io/jokes/random';
 var accessKeyId = process.env.KEY
 var secretAccessKey = process.env.SECRET
 
-// var yoda_me = wisdom;
 var wisdom = ''
-var yoda_me = wisdom;
+// var yoda_me = wisdom;
 
 
 var file_name = 'yoda-translation'
 let params = {
-    'Text': `<speak><amazon:effect name="whispered" vocal-tract-length="-500%"><prosody rate="x-slow" pitch="x-low" volume= "x-loud">${yoda_me}<break time=".25s"/></prosody></amazon:effect></speak>`,
+    'Text': `<speak><amazon:effect name="whispered" vocal-tract-length="-500%"><prosody rate="x-slow" pitch="x-low" volume= "x-loud">${wisdom}<break time=".25s"/></prosody></amazon:effect></speak>`,
     'TextType': "ssml",
     'OutputFormat': 'mp3',
     'VoiceId': 'Matthew'
 }
-
-// var yoda_says = 'https://s3.amazonaws.com/my-video-project/mp3/' + file_name + '.mp3';
-
-// Here is where I send the text input to Polly.
-
-// var params = {
-//   LanguageCode: "en-IN",
-//  };
-//  Polly.describeVoices(params, function(err, data) {
-//    if (err) console.log(err, err.stack); // an error occurred
-//    else     console.log(data);
-// });
 
 webhook.use(express.static('public'));
 webhook.use('/node_modules', express.static('node_modules'));
