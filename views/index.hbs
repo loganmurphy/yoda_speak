@@ -25,7 +25,7 @@
 <script>
 $('.crawl').show();
 setTimeout(function(){
-  $.playSound('/sounds/coolsaber.wav');
+  $.playSound('./sounds/coolsaber.wav');
   $('.crawl').hide();
   // $('.rollIn, .rollIn2').show();
 }, 5500);
@@ -34,14 +34,14 @@ setTimeout(function(){
   $('.rollIn, .rollIn2').show();
 }, 7000);
 setTimeout(function(){
-  $.playSound('/sounds/Hum 4.wav');
+  $.playSound('./sounds/Hum 4.wav');
 }, 8000);
 setTimeout(function(){
-  $.playSound('/sounds/Hum 4.wav');
+  $.playSound('./sounds/Hum 4.wav');
 }, 10000);
 setTimeout(function(){
   $('.rollIn, .rollIn2').hide();
-  $.playSound('/sounds/fx5.wav');
+  $.playSound('./sounds/fx5.wav');
 }, 13000);
 setTimeout(function(){
   $('#wise_master').attr('class', 'fadeIn');
@@ -49,7 +49,7 @@ setTimeout(function(){
 setTimeout(function(){
   $('input').attr('class', 'form_input');
   $('button').attr('class', 'form_input');
-  $.playSound('/sounds/help.mp3');
+  $.playSound('./sounds/help.mp3');
 }, 13650);
 
 
@@ -179,6 +179,6 @@ function check_yoda(hash) {
 }
 
 $('#wise_master').click(function(){
-  $.playSound('/sounds/laugh.wav');
+  $.playSound('./sounds/laugh.wav');
 });
 </script>
