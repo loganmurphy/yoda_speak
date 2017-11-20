@@ -12,6 +12,7 @@
     "apiai": "^4.0.3",
     "aws-sdk": "^2.151.0",
     "axios": "^0.17.1",
+    "blueimp-md5": "^2.10.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
