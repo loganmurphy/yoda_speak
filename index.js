@@ -1,6 +1,7 @@
 var express = require('express')
-const app = require('jovo-framework').Jovo;
-const webhook = require('jovo-framework').Webhook;
+var app = express();
+// const app = require('jovo-framework').Jovo;
+// const webhook = require('jovo-framework').Webhook;
 const AWS = require('aws-sdk')
 
 var axios = require('axios');
@@ -23,8 +24,8 @@ let params = {
     'VoiceId': 'Matthew'
 }
 
-webhook.use(express.static('public'));
-webhook.use('/node_modules', express.static('node_modules'));
+app.use(express.static('public'));
+app.use('/node_modules', express.static('node_modules'));
 
 // console.log(insult);
 
@@ -41,14 +42,14 @@ webhook.use('/node_modules', express.static('node_modules'));
 //   });
 
 
-webhook.get('/', function(req, res){
+app.get('/', function(req, res){
 
   var context = {yoda: wisdom, yoda_talks: file_name, accessKeyId: accessKeyId, secretAccessKey: secretAccessKey};
   res.render('index.hbs', context);
 })
 
 
-webhook.get('/yoda_speak', function(req, res){
+app.get('/yoda_speak', function(req, res){
   var url = 'http://www.yodaspeak.co.uk/webservice/yodatalk.php?wsdl';
   var translate = req.query.yoda_speak;
   // console.log(typeof translate);
@@ -72,24 +73,24 @@ webhook.get('/yoda_speak', function(req, res){
 
 // Listen for post requests
 var PORT = process.env.PORT || 3000;
-webhook.listen(3000, function() {
+app.listen(3000, function() {
     console.log('Local development server listening on port 3000.');
 });
 
-webhook.post('/webhook', function(req, res) {
-    app.handleRequest(req, res, handlers);
-    app.execute();
-});
-
-
-let handlers = {
-    'LAUNCH' : function () {
-    	// this intent is triggered when people open the voice app
-    	// without a specific deep link into an intent
-        app.toIntent('HelloWorldIntent');
-    },
-    'HelloWorldIntent': function() {
-        // app.tell('Here\'s a Chuck Norris joke for ya!' + joke);
-        app.tell(wisdom);
-    },
-};
+// webhook.post('/webhook', function(req, res) {
+//     app.handleRequest(req, res, handlers);
+//     app.execute();
+// });
+//
+//
+// let handlers = {
+//     'LAUNCH' : function () {
+//     	// this intent is triggered when people open the voice app
+//     	// without a specific deep link into an intent
+//         app.toIntent('HelloWorldIntent');
+//     },
+//     'HelloWorldIntent': function() {
+//         // app.tell('Here\'s a Chuck Norris joke for ya!' + joke);
+//         app.tell(wisdom);
+//     },
+// };
