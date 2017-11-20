@@ -70,8 +70,8 @@ webhook.get('/yoda_speak', function(req, res){
   // res.render('index.hbs', context);
 })
 
-
 // Listen for post requests
+var PORT = process.env.PORT || 3000;
 webhook.listen(3000, function() {
     console.log('Local development server listening on port 3000.');
 });
